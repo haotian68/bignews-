@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -162,12 +163,12 @@
             $.ajax({
                 url:'http://localhost:8080/admin/user/info',
                 success:function(backData){
-                   
-                    if(backData==200){
+                   console.log(backData);
+                    if(backData.code==200){
                     //对应的信息填入对应的页面标签中
-                    $('.user_info>img').attr('src',backData.data.userpic);
+                    $('.user_info>img').attr('src',backData.data.userPic);
                     $('.user_info>span').html('欢迎&nbsp;&nbsp;'+backData.data.nickname);
-                    $('.user_center_link>img').attr('src'.backData.data.userpic)
+                    $('.user_center_link>img').attr('src'.backData.data.userPic)
                     }
 
                 }
