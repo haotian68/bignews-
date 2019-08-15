@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
     <script src="js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/template-web.js"></script>
 </head>
 
 <body>
@@ -80,6 +81,8 @@
         </div>
     </div>
 
+    <!-- 模太框 -->
+
     <div class="modal fade" id="addModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -106,7 +109,20 @@
             </div>
         </div>
     </div>
+    <!-- 准备一个模板引擎 -->
+    <script id="yonghu" type="text/html">
+{{each data v}}
+<tr>
+    <td>{{v.name}}</td>
+    <td>{{v.slug}}</td>
+    <td class="text-center">
+        <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});" class="btn btn-info btn-xs">编辑</a>
+        <a href="#" data-id="{{v.id}}" class="btn btn-danger btn-xs">删除</a>
+    </td>
+</tr>
 
+{{/each}}
+</script>
     <script>
         $('#addModal').modal({
             show: false,
@@ -130,20 +146,28 @@
             }
         })      
     </script>
-    
+
 
     <script>
-       //已进入页面发送ajax请求 
-       $.ajax ({
-           type:'get',
-           url:'http://127.0.0.1:8080/admin/category/list',
-           success:function(backData){
-           console.log(backData);
-           if(backData)
+        //已进入页面发送ajax请求 
+        $(function () {
+            function getDate() {
+                $.ajax({
+                    type: 'get',
+                    url: 'http://127.0.0.1:8080/admin/category/list',
+                    success: function (backData) {
+                        console.log(backData);
+                        if (backData.code == 200) {
+                            //通过模板引擎渲染到页面 
+                            var xuanran = template('yonghu', backData);
+                            $('tbody').html(xuanran)
+                        }
+                    }
+                });
+            }
+            getDate();
+        });
 
-           
-           }
-       })
     </script>
 </body>
 
